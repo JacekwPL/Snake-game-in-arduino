@@ -1,14 +1,19 @@
 #include "Block.h"
+#include "Snake.h"
+#include <iostream>
+#include <string>
+
+using namespace std;
 
 class Snake {
-    Movement* _head;
+    Block* _head;
     int count = 0;
 public:
     int Lenght() {
         return count;
     }
 
-    Snake(Movement* head) {
+    Snake(Block* head) {
         _head = head;
         count += 1;
     }
@@ -34,7 +39,7 @@ public:
         }
         else {
             cout << "WARNING, HEAD WASNT INITIALIZE" << endl;
-            _head = new Movement(0, 0, 1, 0);
+            _head = new Block(0, 0, 1, 0);
         }
         count++;
     }

@@ -1,13 +1,14 @@
 #pragma once
 #include "Block.h"
+#include "Vector.h"
 
 class Snake {
-    Movement* _head;
+    Block* _head;
     int count = 0;
 public:
     int Lenght();
 
-    Snake(Movement* head);
+    Snake(Block* head);
 
     void Move();
     void MoveDir(int x, int y);

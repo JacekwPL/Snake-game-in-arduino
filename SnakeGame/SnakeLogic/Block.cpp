@@ -1,31 +1,13 @@
 #include <iostream>
+#include "Vector.h"
 
 using namespace std;
 
-struct Vector {
-public:
-    int x, y;
-
-    Vector(int xd, int yd) {
-        x = xd;
-        y = yd;
-    }
-    Vector() {
-        x = 0;
-        y = 0;
-    }
-
-    void update(int xd, int yd) {
-        x = xd;
-        y = yd;
-    }
-};
-
-class Movement {
+class Block {
 private:
     Vector* _pos = new Vector();
     Vector* _dir = new Vector();
-    Movement* _next = nullptr;
+    Block* _next = nullptr;
 public:
     Vector* getPos() {
         return *&_pos;
@@ -43,16 +25,16 @@ public:
         throw exception("Blad w indeksie MOVEMENT");
     }
 
-    Movement() {
+    Block() {
         _pos->update(0, 0);
         _dir->update(0, 0);
     }
 
-    Movement(int x, int y) {
+    Block(int x, int y) {
         _pos->update(x, y);
     }
 
-    Movement(int x, int y, int xd, int yd) {
+    Block(int x, int y, int xd, int yd) {
         _pos->update(x, y);
         _dir->update(xd, yd);
     }
@@ -77,7 +59,7 @@ public:
         cout << "Kierunek: " << _dir->x << ", " << _dir->y << endl;
     }
 
-    ~Movement() {
+    ~Block() {
         delete _pos;
         delete _dir;
         delete _next;
@@ -87,6 +69,6 @@ public:
         if (_next)
             _next->Add();
         else
-            _next = new Movement(_pos->x - _dir->x, _pos->y - _dir->y, _dir->x, _dir->y);
+            _next = new Block(_pos->x - _dir->x, _pos->y - _dir->y, _dir->x, _dir->y);
     }
 };

@@ -1,4 +1,3 @@
-﻿  Snake.cpp
-  SnakeLogic.cpp
-  Generowanie kodu...
-  SnakeLogic.vcxproj -> C:\Users\jacek\source\repos\SnakeGame\x64\Debug\SnakeLogic.exe
+﻿  Vector.cpp
+C:\Users\jacek\Desktop\progw\Snake-game-in-arduino\SnakeGame\SnakeLogic\Vector.cpp(3,14): error C2011: "Vector'': "class" wpisz ponownie definicję
+C:\Users\jacek\Desktop\progw\Snake-game-in-arduino\SnakeGame\SnakeLogic\Vector.h(3,7): message : zobacz deklarację „Vector”

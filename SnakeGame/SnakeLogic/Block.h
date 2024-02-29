@@ -3,21 +3,12 @@
 
 using namespace std;
 
-struct Vector {
-public:
-    int x, y;
-
-    Vector(int xd, int yd);
-    Vector();
-
-    void update(int xd, int yd);
-};
-
-class Movement {
+class Block
+{
 private:
     Vector* _pos = new Vector();
     Vector* _dir = new Vector();
-    Movement* _next = nullptr;
+    Block* _next = nullptr;
 public:
     Vector* getPos();
 
@@ -25,11 +16,11 @@ public:
 
     Vector* index(int i);
 
-    Movement();
+    Block();
 
-    Movement(int x, int y);
+    Block(int x, int y);
 
-    Movement(int x, int y, int xd, int yd);
+    Block(int x, int y, int xd, int yd);
 
     void Move();
 
@@ -37,7 +28,7 @@ public:
 
     void print();
 
-    ~Movement();
+    ~Block();
 
     void Add();
 };
