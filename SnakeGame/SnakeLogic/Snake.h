@@ -1,10 +1,11 @@
-#pragma once
+
 #include "Block.h"
 #include "Vector.h"
 
 class Snake {
     Block* _head;
     int count = 0;
+
 public:
     int Lenght();
 
@@ -19,4 +20,5 @@ public:
 
     ~Snake();
 };
+
 

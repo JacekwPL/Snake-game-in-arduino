@@ -1,10 +1,7 @@
 #pragma once
-#include <iostream>
+#include "Vector.h"
 
-using namespace std;
-
-class Block
-{
+class Block {
 private:
     Vector* _pos = new Vector();
     Vector* _dir = new Vector();

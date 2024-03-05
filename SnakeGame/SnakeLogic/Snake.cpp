@@ -3,54 +3,49 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
 
-class Snake {
-    Block* _head;
-    int count = 0;
-public:
-    int Lenght() {
-        return count;
-    }
+int Snake::Lenght() {
+    return count;
+}
 
-    Snake(Block* head) {
-        _head = head;
-        count += 1;
-    }
+Snake::Snake(Block* head) {
+    _head = head;
+    count += 1;
+}
 
-    void Move() {
-        if (_head)
-            _head->Move();
-    }
-    void MoveDir(int x, int y) {
-        if (_head)
-            _head->updateDir(x, y);
+void Snake::Move() {
+    if (_head)
         _head->Move();
+}
+void Snake::MoveDir(int x, int y) {
+    if (_head)
+        _head->updateDir(x, y);
+    _head->Move();
+}
+Vector* Snake::Index(int i) {
+    if (_head)
+        return _head->index(i);
+    else
+        throw std::exception("Blad w indeksie SNAKE");
+}
+void Snake::Add() {
+    if (_head) {
+        _head->Add();
     }
-    Vector* Index(int i) {
-        if (_head)
-            return _head->index(i);
-        else
-            throw exception("Blad w indeksie SNAKE");
+    else {
+        std::cout << "WARNING, HEAD WASNT INITIALIZE" << std::endl;
+        _head = new Block(0, 0, 1, 0);
     }
-    void Add() {
-        if (_head) {
-            _head->Add();
-        }
-        else {
-            cout << "WARNING, HEAD WASNT INITIALIZE" << endl;
-            _head = new Block(0, 0, 1, 0);
-        }
-        count++;
-    }
+    count++;
+}
 
-    void Add(int i) {
-        for (int x = 0; x < i; x++) {
-            this->Add();
-        }
+void Snake::Add(int i) {
+    for (int x = 0; x < i; x++) {
+        this->Add();
     }
+}
 
-    ~Snake() {
-        delete _head;
-    }
-};
+Snake::~Snake() {
+    delete _head;
+}
+

@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Users\jacek\source\repos\SnakeGame\x64\Debug\SnakeLogic.exe</FullPath>
+      <FullPath>C:\Users\jacek\CLionProjects\snake\Snake-game-in-arduino\SnakeGame\x64\Debug\SnakeLogic.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

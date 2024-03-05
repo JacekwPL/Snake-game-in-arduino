@@ -1,6 +1,8 @@
 ﻿#include <iostream>
 #include <string>
 #include "Snake.h"
+#include "Block.h"
+#include "Vector.h"
 
 using namespace std;
 

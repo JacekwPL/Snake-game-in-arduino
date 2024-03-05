@@ -1,20 +1,16 @@
 #include "Vector.h"
 
-class Vector {
-public:
-    int x, y;
+Vector::Vector(int xd, int yd) {
+    x = xd;
+    y = yd;
+}
 
-    Vector(int xd, int yd) {
-        x = xd;
-        y = yd;
-    }
-    Vector() {
-        x = 0;
-        y = 0;
-    }
+Vector::Vector() {
+    x = 0;
+    y = 0;
+}
 
-    void update(int xd, int yd) {
-        x = xd;
-        y = yd;
-    }
-};
+void Vector::update(int xd, int yd) {
+    x = xd;
+    y = yd;
+}
