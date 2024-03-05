@@ -7,7 +7,7 @@ class Snake {
     int count = 0;
 
 public:
-    int Lenght();
+    int Lenght() const ;
 
     Snake(Block* head);
 

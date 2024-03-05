@@ -4,7 +4,7 @@
 #include <string>
 
 
-int Snake::Lenght() {
+int Snake::Lenght() const {
     return count;
 }
 

@@ -3,11 +3,11 @@
 #include "Block.h"
 
 
-Vector* Block::getPos() {
+Vector* Block::getPos() const {
     return *&_pos;
 }
 
-Vector* Block::getDir() {
+Vector* Block::getDir() const {
     return *&_dir;
 }
 

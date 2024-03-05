@@ -7,9 +7,9 @@ private:
     Vector* _dir = new Vector();
     Block* _next = nullptr;
 public:
-    Vector* getPos();
+    Vector* getPos() const ;
 
-    Vector* getDir();
+    Vector* getDir() const ;
 
     Vector* index(int i);
 

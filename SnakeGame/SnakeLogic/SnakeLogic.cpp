@@ -3,6 +3,7 @@
 #include "Snake.h"
 #include "Block.h"
 #include "Vector.h"
+#include "Point.h"
 
 using namespace std;
 
@@ -38,7 +39,7 @@ bool IsSnakePos(int x, int y, Snake* ptrSnake) {
     return false;
 }
 
-void DrawScreen(Snake* ptr) {
+void DrawScreen(Snake*& snake, Point*& point) {
     system("CLS");
     string str = "|||||||||||||||||||||||||||\n";
     for (unsigned char i = 0; i < 20; i++)
@@ -46,8 +47,11 @@ void DrawScreen(Snake* ptr) {
         str+=("|");
         for (unsigned char j = 0; j < 40; j++)
         {
-            if (IsSnakePos(j, i, ptr)) {
+            if (IsSnakePos(j, i, snake)) {
                 str += ("#");
+            }
+            else if (point->pos->x == j && point->pos->x == i) {
+                str += ("+");
             }
             else
                 str+=(" ");
@@ -59,13 +63,13 @@ void DrawScreen(Snake* ptr) {
     cout << str;
 }
 
-
-
 int main() {
     Snake* ptrSnake = new Snake(new Block(5, 5, 1, 0));
-
-    ptrSnake->Add(40);
+    ptrSnake->Add(4);
     bool DidMove;
+
+    Point* ptrPoint = new Point(0, 0);
+
     while (1) {
         DidMove = 0;
         if (GetKeyState('W') & 0x8000)
@@ -91,11 +95,16 @@ int main() {
             ptrSnake->MoveDir(1, 0);
             DidMove = 1;
         }
-        DrawScreen(ptrSnake);
+
+        if (DidMove == 0)
+            ptrSnake->Move();
+
+        DrawScreen(ptrSnake, ptrPoint);
         Sleep(500);
     }
 
     delete ptrSnake;
+    delete ptrPoint;
     return 0;
 }
 
