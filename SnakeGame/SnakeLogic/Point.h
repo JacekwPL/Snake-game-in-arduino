@@ -7,9 +7,9 @@ public:
 	Vector* pos = new Vector(0, 0);
 
 	Point();
-	Point(int, int);
+	Point(int x, int y);
 	
-	void UpdatePos(int, int);
+	void UpdatePos(int x, int y);
 
 };
 

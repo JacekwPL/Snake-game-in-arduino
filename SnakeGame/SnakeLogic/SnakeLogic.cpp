@@ -4,6 +4,7 @@
 #include "Block.h"
 #include "Vector.h"
 #include "Point.h"
+#include <random>
 
 using namespace std;
 
@@ -39,9 +40,9 @@ bool IsSnakePos(int x, int y, Snake* ptrSnake) {
     return false;
 }
 
-void DrawScreen(Snake*& snake, Point*& point) {
+void DrawScreen(Snake* snake, Point* point) {
     system("CLS");
-    string str = "|||||||||||||||||||||||||||\n";
+    string str = "||||||||||||||||||||||||||||||||||||||||||\n";
     for (unsigned char i = 0; i < 20; i++)
     {
         str+=("|");
@@ -50,7 +51,7 @@ void DrawScreen(Snake*& snake, Point*& point) {
             if (IsSnakePos(j, i, snake)) {
                 str += ("#");
             }
-            else if (point->pos->x == j && point->pos->x == i) {
+            else if (point->pos->x == j && point->pos->y == i) {
                 str += ("+");
             }
             else
@@ -59,7 +60,7 @@ void DrawScreen(Snake*& snake, Point*& point) {
         str += ("|");
         str += ("\n");
     }
-    str += ("|||||||||||||||||||||||||||");
+    str += ("||||||||||||||||||||||||||||||||||||||||||");
     cout << str;
 }
 
@@ -68,7 +69,9 @@ int main() {
     ptrSnake->Add(4);
     bool DidMove;
 
-    Point* ptrPoint = new Point(0, 0);
+    srand((unsigned) time(NULL));
+
+    Point* ptrPoint = new Point(8, 5);
 
     while (1) {
         DidMove = 0;
@@ -99,9 +102,27 @@ int main() {
         if (DidMove == 0)
             ptrSnake->Move();
 
+        if (ptrSnake->head->pos->x == ptrPoint->pos->x &&
+            ptrSnake->head->pos->y == ptrPoint->pos->y) {
+            ptrSnake->Add();
+            ptrPoint->UpdatePos(rand() % 30, rand() % 10);
+        }
+
         DrawScreen(ptrSnake, ptrPoint);
-        Sleep(500);
+        if (ptrSnake->ColisonCheck()) {
+            std::cout << "Game over!\n";
+            break;
+        }
+
+        if ((ptrSnake->head->pos->x > 40 or ptrSnake->head->pos->x < 0) or ((ptrSnake->head->pos->y > 20 or ptrSnake->head->pos->y < 0))) {
+            std::cout << "Game over!\n";
+            break;
+        }
+        
+
+        Sleep(100);
     }
+
 
     delete ptrSnake;
     delete ptrPoint;

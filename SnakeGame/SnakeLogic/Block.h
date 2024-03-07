@@ -3,15 +3,15 @@
 
 class Block {
 private:
-    Vector* _pos = new Vector();
     Vector* _dir = new Vector();
     Block* _next = nullptr;
 public:
+    Vector* pos = new Vector();
     Vector* getPos() const ;
 
     Vector* getDir() const ;
 
-    Vector* index(int i);
+    Vector* index(int i) const ;
 
     Block();
 
