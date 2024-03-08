@@ -8,7 +8,7 @@ Vector* Block::getPos() const {
 }
 
 Vector* Block::getDir() const {
-    return *&_dir;
+    return *&dir;
 }
 
 Vector* Block::index(int i) const {
@@ -21,7 +21,7 @@ Vector* Block::index(int i) const {
 
 Block::Block() {
     pos->update(0, 0);
-    _dir->update(0, 0);
+    dir->update(0, 0);
 }
 
 Block::Block(int x, int y) {
@@ -30,7 +30,7 @@ Block::Block(int x, int y) {
 
 Block::Block(int x, int y, int xd, int yd) {
     pos->update(x, y);
-    _dir->update(xd, yd);
+    dir->update(xd, yd);
 }
 
 void Block::Move() {
@@ -38,24 +38,24 @@ void Block::Move() {
         _next->updateDir(pos->x - _next->pos->x, pos->y - _next->pos->y);
         _next->Move();
     }
-    pos->x += _dir->x;
-    pos->y += _dir->y;
+    pos->x += dir->x;
+    pos->y += dir->y;
 
 }
 
 void Block::updateDir(int x, int y) {
-    _dir->x = x;
-    _dir->y = y;
+    dir->x = x;
+    dir->y = y;
 }
 
 void Block::print() {
     std::cout << "Pozycja: " << pos->x << ", " << pos->y << std::endl;
-    std::cout << "Kierunek: " << _dir->x << ", " << _dir->y << std::endl;
+    std::cout << "Kierunek: " << dir->x << ", " << dir->y << std::endl;
 }
 
 Block::~Block() {
     delete pos;
-    delete _dir;
+    delete dir;
     delete _next;
 }
 
@@ -63,5 +63,5 @@ void Block::Add() {
     if (_next)
         _next->Add();
     else
-        _next = new Block(pos->x - _dir->x, pos->y - _dir->y, _dir->x, _dir->y);
+        _next = new Block(pos->x - dir->x, pos->y - dir->y, dir->x, dir->y);
 }

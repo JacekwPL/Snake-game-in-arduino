@@ -69,6 +69,21 @@ void DrawScreen(Snake* snake, Point* point) {
     cout << str;
 }
 
+void direction(int a0, int a1, Vector*& dir) {
+    if (a0 < 15) {
+        dir->update(1, 0);
+    }
+    else if (a0 > 1000) {
+        dir->update(-1, 0);
+    }
+    else if (a1 > 1000) {
+        dir->update(0, 1);
+    }
+    else if (a1 < 15) {
+        dir->update(0, -1);
+    }
+}
+
 int main() {
     Snake* ptrSnake = new Snake(new Block(5, 5, 1, 0));
     ptrSnake->Add(SNAKE_LENGTH);
@@ -82,25 +97,25 @@ int main() {
         DidMove = 0;
         if (GetKeyState('W') & 0x8000)
         {
-            ptrSnake->MoveDir(0, -1);
+            direction(500, 0, ptrSnake->head->dir);
             DidMove = 1;
         }
 
         if (GetKeyState('A') & 0x8000)
         {
-            ptrSnake->MoveDir(-1, 0);
+            direction(1023, 500, ptrSnake->head->dir);
             DidMove = 1;
         }
         
         if (GetKeyState('S') & 0x8000)
         {
-            ptrSnake->MoveDir(0, 1);
+            direction(500, 1023, ptrSnake->head->dir);
             DidMove = 1;
         }
         
         if (GetKeyState('D') & 0x8000)
         {
-            ptrSnake->MoveDir(1, 0);
+            direction(0, 500, ptrSnake->head->dir);
             DidMove = 1;
         }
 

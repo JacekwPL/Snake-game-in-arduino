@@ -3,9 +3,10 @@
 
 class Block {
 private:
-    Vector* _dir = new Vector();
     Block* _next = nullptr;
 public:
+    Vector* dir = new Vector();
+
     Vector* pos = new Vector();
     Vector* getPos() const ;
 
