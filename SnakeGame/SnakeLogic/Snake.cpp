@@ -18,9 +18,17 @@ void Snake::Move() {
         head->Move();
 }
 void Snake::MoveDir(int x, int y) {
-    if (head)
+    if (head) {
+        Vector* dir = head->getDir();
+
+        if (!(-x == dir->x and -y == dir->y)) {
         head->updateDir(x, y);
-    head->Move();
+        head->Move();
+        }
+    }
+    else {
+        std::exception("Head wasn't initialize!");
+    }
 }
 Vector* Snake::Index(int i) {
     // returns position of snake block begins from head (0) to tail (i)

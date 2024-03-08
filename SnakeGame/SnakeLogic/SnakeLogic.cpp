@@ -8,6 +8,11 @@
 
 using namespace std;
 
+#define SNAKE_LENGTH 4
+#define TIME_DELAY 300 //ms
+#define YMAX 20;
+#define XMAX 40;
+
 #ifdef _WIN32
 #include <windows.h>
 
@@ -66,7 +71,7 @@ void DrawScreen(Snake* snake, Point* point) {
 
 int main() {
     Snake* ptrSnake = new Snake(new Block(5, 5, 1, 0));
-    ptrSnake->Add(4);
+    ptrSnake->Add(SNAKE_LENGTH);
     bool DidMove;
 
     srand((unsigned) time(NULL));
@@ -102,27 +107,33 @@ int main() {
         if (DidMove == 0)
             ptrSnake->Move();
 
-        if (ptrSnake->head->pos->x == ptrPoint->pos->x &&
-            ptrSnake->head->pos->y == ptrPoint->pos->y) {
+        if (ptrSnake->head->pos->x == ptrPoint->pos->x && ptrSnake->head->pos->y == ptrPoint->pos->y) {
             ptrSnake->Add();
-            ptrPoint->UpdatePos(rand() % 30, rand() % 10);
+            int x = rand() % 40;
+            int y = rand() % 20;
+            while (IsSnakePos(x, y, ptrSnake)) {
+                x = rand() % 40;
+                y = rand() % 20;
+            }
+            ptrPoint->UpdatePos(x, y);
         }
 
-        DrawScreen(ptrSnake, ptrPoint);
+        
         if (ptrSnake->ColisonCheck()) {
-            std::cout << "Game over!\n";
-            break;
+            goto GameEnd;
         }
 
-        if ((ptrSnake->head->pos->x > 40 or ptrSnake->head->pos->x < 0) or ((ptrSnake->head->pos->y > 20 or ptrSnake->head->pos->y < 0))) {
-            std::cout << "Game over!\n";
+        if (ptrSnake->head->pos->x > 40 or ptrSnake->head->pos->x < 0 or ptrSnake->head->pos->y > 20 or ptrSnake->head->pos->y < 0) {
+            goto GameEnd;
             break;
         }
         
-
-        Sleep(100);
+        DrawScreen(ptrSnake, ptrPoint);
+        Sleep(TIME_DELAY);
     }
 
+    GameEnd:
+        std::cout << "\nGame over!\nPoints scored: " << ptrSnake->Lenght() - SNAKE_LENGTH - 1 << "\n";
 
     delete ptrSnake;
     delete ptrPoint;
