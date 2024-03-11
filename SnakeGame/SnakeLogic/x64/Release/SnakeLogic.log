@@ -1,0 +1,10 @@
+﻿  Block.cpp
+  Point.cpp
+  Snake.cpp
+  SnakeLogic.cpp
+  Vector.cpp
+  Trwa generowanie kodu
+  Previous IPDB not found, fall back to full compilation.
+  All 114 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Zakończono generowanie kodu
+  SnakeLogic.vcxproj -> C:\Users\jacek\Desktop\programowanieW\Snake-game-in-arduino\SnakeGame\x64\Release\SnakeLogic.exe

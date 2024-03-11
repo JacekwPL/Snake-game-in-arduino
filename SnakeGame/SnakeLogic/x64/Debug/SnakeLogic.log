@@ -1,5 +1,7 @@
 ﻿  Block.cpp
+  Point.cpp
   Snake.cpp
   SnakeLogic.cpp
+  Vector.cpp
   Generowanie kodu...
-  SnakeLogic.vcxproj -> C:\Users\jacek\OneDrive\Desktop\programowanieW\Snake-game-in-arduino\SnakeGame\x64\Debug\SnakeLogic.exe
+  SnakeLogic.vcxproj -> C:\Users\jacek\Desktop\programowanieW\Snake-game-in-arduino\SnakeGame\x64\Debug\SnakeLogic.exe
