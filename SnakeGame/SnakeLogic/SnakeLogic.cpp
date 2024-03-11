@@ -71,16 +71,16 @@ void DrawScreen(Snake* snake, Point* point) {
 
 void direction(int a0, int a1, Vector*& dir) {
     if (a0 < 15) {
-        dir->update(1, 0);
+        dir->update(1, 0); // right
     }
     else if (a0 > 1000) {
-        dir->update(-1, 0);
+        dir->update(-1, 0); // left
     }
     else if (a1 > 1000) {
-        dir->update(0, 1);
+        dir->update(0, 1); // down
     }
     else if (a1 < 15) {
-        dir->update(0, -1);
+        dir->update(0, -1); // up
     }
 }
 

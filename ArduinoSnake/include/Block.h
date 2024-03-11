@@ -2,10 +2,11 @@
 #include "Vector.h"
 
 class Block {
-private:
-    Vector* _dir = new Vector();
-    Block* _next = nullptr;
 public:
+    Vector* dir = new Vector();
+
+    Block* next = nullptr;
+
     Vector* pos = new Vector();
     Vector* getPos() const ;
 

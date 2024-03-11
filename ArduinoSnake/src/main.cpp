@@ -8,20 +8,24 @@ const int SNAKE_LENGTH = 4;
 const int TIME_DELAY = 300; //ms
 const int YMAX = 20;
 const int XMAX = 40;
+const int SENSITIVITY = 50;
 
 bool PointColision(Snake*, Point*);
 bool IsSnakePos(int, int, Snake*);
 void EndGame();
 void direction(int a0, int a1, Vector*& dir);
 bool IsEnd(Snake*);
+void printPos(Snake*, Point*);
+
+long long time = 0;
 
 Snake* ptrSnake = new Snake(new Block(5, 5, 1, 0));
 Point* ptrPoint = new Point(8, 5);
 Vector* dir = new Vector();
-bool DidMove = false;
+
 
 void setup() {
-  // ptrSnake->Add(SNAKE_LENGTH);
+  ptrSnake->Add(SNAKE_LENGTH);
   Serial.begin(9600);
 
   pinMode(A0, INPUT);
@@ -31,29 +35,30 @@ void setup() {
 }
 
 void loop() {
-  // if (PointColision(ptrSnake, ptrPoint)) {
-  //   ptrSnake->Add();
-  //   int x = rand() % XMAX;
-  //   int y = rand() % YMAX;
-  //   while (IsSnakePos(x, y, ptrSnake)) {
-  //     x = rand() % XMAX;
-  //     y = rand() % YMAX;
+  if (PointColision(ptrSnake, ptrPoint)) {
+    ptrSnake->Add();
+    int x = rand() % XMAX;
+    int y = rand() % YMAX;
+    while (IsSnakePos(x, y, ptrSnake)) {
+      x = rand() % XMAX;
+      y = rand() % YMAX;
 
-  //   }
-  //   ptrPoint->UpdatePos(x, y);
-  // }
+    }
+    ptrPoint->UpdatePos(x, y);
+  }
 
-  // if (ptrSnake->ColisonCheck() or IsEnd(ptrSnake)) {
-  //   EndGame();
-  // }
+  if (ptrSnake->ColisonCheck() or IsEnd(ptrSnake)) {
+    EndGame();
+  }
 
-  Serial.print("X ");
-  Serial.print(analogRead(A0));
-  Serial.print(" Y ");
-  Serial.print(analogRead(A1));
-  Serial.print(" S ");
-  Serial.println(analogRead(A2));
-  delay(500);
+  direction(analogRead(A0), analogRead(A1), ptrSnake->head->dir);
+
+  if (time < millis()) {
+    time += TIME_DELAY;
+    ptrSnake->Move();
+    printPos(ptrSnake, ptrPoint);
+  }
+
 }
 
 bool IsSnakePos(int x, int y, Snake* ptrSnake) {
@@ -67,8 +72,11 @@ bool IsSnakePos(int x, int y, Snake* ptrSnake) {
 }
 
 void EndGame() {
-  delete ptrSnake;
-  delete ptrPoint;
+  ptrSnake->~Snake();
+
+  ptrSnake = new Snake(new Block(5, 5, 1, 0));
+
+  ptrSnake->Add(SNAKE_LENGTH);
 }
 
 bool IsEnd(Snake* Snake) {
@@ -84,16 +92,50 @@ bool PointColision(Snake* snake, Point* point) {
 }
 
 void direction(int a0, int a1, Vector*& dir) {
-  if (a0 < 15) {
+  if (a1 < SENSITIVITY) {
     dir->update(1, 0);
   }
-  else if (a0 > 1000) {
-    dir->update(-1, 0);
-  }
-  else if (a1 > 1000) {
+  else if (a0 > 1023-SENSITIVITY) {
     dir->update(0, 1);
+
   }
-  else if (a1 < 15) {
+  else if (a1 > 1023-SENSITIVITY) {
+    dir->update(-1, 0);
+
+  }
+  else if (a0 < SENSITIVITY) {
     dir->update(0, -1);
   }
+}
+
+void printPos(Snake* snake, Point* point) { 
+  Block* head = snake->head;
+  Vector* pnt = point->pos;
+  if (pnt->x < 10) {
+    Serial.print("0");
+  }
+  Serial.print(pnt->x);
+  
+  if (pnt->y < 10) {
+    Serial.print("0");
+  }
+  Serial.print(pnt->y);
+  
+  while (head) {
+    Vector* pos = head->pos;
+    Serial.print("+");
+   
+    if (pos->x < 10) {
+      Serial.print("0");
+    }
+    Serial.print(pos->x);
+    
+    if (pos->y < 10) {
+      Serial.print("0");
+    }
+    Serial.print(pos->y);
+   
+    head = head->next;
+  }
+  Serial.print('\n');
 }
