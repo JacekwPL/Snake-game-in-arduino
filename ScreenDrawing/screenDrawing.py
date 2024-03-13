@@ -15,33 +15,47 @@ class ScreenDrawing:
 
         self.SIZE = _size
 
-    def draw(self, positions: str): # +0501+0401+0301+0201
-        print(positions)
-        pygame.draw.rect(self.screen, self.black, (0, 0, 9999, 9999))
+    def blocks(self, positions: str):  # +0501+0401+0301+0201
+        pos = positions.split(";")
+        for elem in pos[1:]:
+            match elem[0]:
+                case ' ':
+                    self.draw(self.green, elem[1:])
+                case '+':
+                    self.draw(self.red, elem[1:])
+                case '-':
+                    self.draw(self.black, elem[1:])
+                case 'R':
+                    self.screen.fill((0, 0, 0))
 
-        pos = positions.split("+")
+                    font = pygame.font.SysFont("Arial", 36)
 
-        pygame.draw.rect(self.screen, self.green, (int(pos[0][0:2])*self.SIZE, int(pos[0][2:4])*self.SIZE, self.SIZE, self.SIZE))
-        for cords in pos[1:]:
-            pygame.draw.rect(self.screen, self.red, (int(cords[0:2]) * self.SIZE, int(cords[2:4]) * self.SIZE, self.SIZE, self.SIZE))
+                    text = font.render("Game Over!", True, self.white)
+
+                    self.screen.blit(text, (self.screen.get_width()//2 - text.get_width() // 2,
+                                            self.screen.get_height()//2 - text.get_height() // 2))
+
+                    text = font.render(f"Your score: {elem[1:]}", True, self.white)
+
+                    self.screen.blit(text, (self.screen.get_width()//2 - text.get_width() // 2,
+                                            self.screen.get_height()//2 + 50 - text.get_height() // 2))
+                    pygame.display.update()
 
         pygame.display.update()
 
+    def draw(self, col: pygame.color, pos: str) -> None:
+        pygame.draw.rect(self.screen, col, (int(pos[0:2]) * self.SIZE, int(pos[2:4]) * self.SIZE, self.SIZE, self.SIZE))
+
 
 if __name__ == '__main__':
-    string = '''0709+2108+2008+1908+1808+1708
-0709+2208+2108+2008+1908+1808
-0709+2308+2208+2108+2008+1908
-0709+2408+2308+2208+2108+2008
-0709+2508+2408+2308+2208+2108'''
-
-    string = string.split('\n')
+    string = '''; 0805;+0505;+0405;+0305;+0205;+0105'''
 
     pygame.init()
     screen = pygame.display.set_mode((400, 300))
 
-    sc = ScreenDrawing(screen)
-    i = 0
+    sc = ScreenDrawing(screen, 15)
+
+    sc.blocks(string)
 
     start = time.time()
     while 1:
@@ -50,9 +64,3 @@ if __name__ == '__main__':
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-
-        if time.time() - start > 2:
-            i += 1
-            sc.draw(string[i % len(string)].rstrip())
-            start = time.time()
-

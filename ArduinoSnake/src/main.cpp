@@ -5,22 +5,23 @@
 #include "Point.h"
 
 const int SNAKE_LENGTH = 4;
-const int TIME_DELAY = 300; //ms
-const int YMAX = 20;
+const int TIME_DELAY = 200; //ms
+const int YMAX = 40;
 const int XMAX = 40;
 const int SENSITIVITY = 50;
 
 bool PointColision(Snake*, Point*);
 bool IsSnakePos(int, int, Snake*);
-void EndGame();
+void ResetGame();
 void direction(int a0, int a1, Vector*& dir);
 bool IsEnd(Snake*);
 void printPos(Snake*, Point*);
+void SerialPrint(char, Vector*);
 
 long long time = 0;
 
 Snake* ptrSnake = new Snake(new Block(5, 5, 1, 0));
-Point* ptrPoint = new Point(8, 5);
+Point* ptrPoint = new Point(rand() % XMAX, rand() % YMAX);
 Vector* dir = new Vector();
 
 
@@ -31,7 +32,20 @@ void setup() {
   pinMode(A0, INPUT);
   pinMode(A1, INPUT);
   pinMode(A2, INPUT);
+  
+  Serial.print('\n');
 
+  // Vector* ptr = ptrPoint->pos;
+  // SerialPrint(' ', ptr);
+  
+  // Block* head = ptrSnake->head;
+  // while(head){
+  //   ptr = head->pos;
+  //   SerialPrint('+', ptr);
+  //   head = head->next;
+  // }
+  Serial.print('\n');
+  time = millis();
 }
 
 void loop() {
@@ -48,7 +62,7 @@ void loop() {
   }
 
   if (ptrSnake->ColisonCheck() or IsEnd(ptrSnake)) {
-    EndGame();
+    ResetGame();
   }
 
   direction(analogRead(A0), analogRead(A1), ptrSnake->head->dir);
@@ -58,7 +72,6 @@ void loop() {
     ptrSnake->Move();
     printPos(ptrSnake, ptrPoint);
   }
-
 }
 
 bool IsSnakePos(int x, int y, Snake* ptrSnake) {
@@ -71,12 +84,17 @@ bool IsSnakePos(int x, int y, Snake* ptrSnake) {
   return false;
 }
 
-void EndGame() {
+void ResetGame() {
   ptrSnake->~Snake();
+  
+  Serial.print(";R");
+  Serial.println(ptrSnake->Lenght() - SNAKE_LENGTH - 1);
 
+  while (analogRead(A2) != 0) { }
+  time = millis();
   ptrSnake = new Snake(new Block(5, 5, 1, 0));
-
   ptrSnake->Add(SNAKE_LENGTH);
+
 }
 
 bool IsEnd(Snake* Snake) {
@@ -110,32 +128,32 @@ void direction(int a0, int a1, Vector*& dir) {
 
 void printPos(Snake* snake, Point* point) { 
   Block* head = snake->head;
-  Vector* pnt = point->pos;
-  if (pnt->x < 10) {
-    Serial.print("0");
-  }
-  Serial.print(pnt->x);
+  Vector* pos = point->pos;
   
-  if (pnt->y < 10) {
-    Serial.print("0");
-  }
-  Serial.print(pnt->y);
-  
-  while (head) {
-    Vector* pos = head->pos;
-    Serial.print("+");
-   
-    if (pos->x < 10) {
-      Serial.print("0");
-    }
-    Serial.print(pos->x);
-    
-    if (pos->y < 10) {
-      Serial.print("0");
-    }
-    Serial.print(pos->y);
-   
+  SerialPrint(' ', pos);
+  SerialPrint('+', head->pos);
+  while (head->next) {
     head = head->next;
   }
+  pos = head->pos;
+
+  SerialPrint('-', pos);
+  
+
   Serial.print('\n');
+}
+
+void SerialPrint(char str, Vector* pos) {
+  Serial.print(';');
+  Serial.print(str);
+  if (pos->x < 10 && pos->x >= 0) {
+    Serial.print("0");
+  }
+  Serial.print(pos->x);
+  
+
+  if (pos->y < 10 && pos->y >= 0) {
+    Serial.print("0");
+  }
+  Serial.print(pos->y);
 }

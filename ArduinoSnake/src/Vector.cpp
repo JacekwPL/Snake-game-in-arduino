@@ -11,6 +11,8 @@ Vector::Vector() {
 }
 
 void Vector::update(int xd, int yd) {
-    x = xd;
-    y = yd;
+    if (!(x == -xd and y == -yd)) {
+        x = xd;
+        y = yd;
+    }
 }

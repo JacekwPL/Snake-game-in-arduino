@@ -10,7 +10,7 @@ public:
     int Lenght() const ;
 
     Snake(Block* head);
-
+    
     void Move();
     
     void MoveDir(int x, int y);

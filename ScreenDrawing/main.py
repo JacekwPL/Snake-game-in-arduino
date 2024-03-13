@@ -3,7 +3,7 @@ import pygame
 import sys
 
 
-YMAX = 20
+YMAX = 40
 XMAX = 40
 SIZE = 15
 
@@ -19,12 +19,26 @@ if __name__ == '__main__':
     serialInst.port = 'COM3'
     serialInst.open()
 
+    clearScreen = False
+
     while 1:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
 
-        if serialInst.in_waiting:
-            sc.draw(serialInst.readline().decode().rstrip())
-        
+        try:
+            if serialInst.in_waiting:
+                string = serialInst.readline().decode().rstrip()
+                print(string)
+                sc.blocks(string)
+                if string[1] == 'R':
+                    clearScreen = True
+                else:
+                    clearScreen = False
+
+        except Exception:
+            pass
+
+        if clearScreen:
+            screen.fill((0, 0, 0))
