@@ -29,60 +29,12 @@ void sleep(unsigned milliseconds)
 }
 #endif
 
-#include <iostream>
+bool IsSnakePos(int x, int y, Snake* ptrSnake);
+void DrawScreen(Snake* snake, Point* point);
+void direction(int a0, int a1, Vector*& dir);
+Vector* AStarXDAlg(Snake* snake, Point* point);
 
-using namespace std;
 
-
-
-bool IsSnakePos(int x, int y, Snake* ptrSnake) {
-    Vector* arr;
-    for (unsigned char i = 0; i < ptrSnake->Lenght(); i++)
-    {
-        arr = ptrSnake->Index(i);
-        if (arr->x == x && arr->y == y) { return true; }
-    }
-    return false;
-}
-
-void DrawScreen(Snake* snake, Point* point) {
-    system("CLS");
-    string str = "||||||||||||||||||||||||||||||||||||||||||\n";
-    for (unsigned char i = 0; i < 20; i++)
-    {
-        str+=("|");
-        for (unsigned char j = 0; j < 40; j++)
-        {
-            if (IsSnakePos(j, i, snake)) {
-                str += ("#");
-            }
-            else if (point->pos->x == j && point->pos->y == i) {
-                str += ("+");
-            }
-            else
-                str+=(" ");
-        }
-        str += ("|");
-        str += ("\n");
-    }
-    str += ("||||||||||||||||||||||||||||||||||||||||||");
-    cout << str;
-}
-
-void direction(int a0, int a1, Vector*& dir) {
-    if (a0 < 15) {
-        dir->update(1, 0); // right
-    }
-    else if (a0 > 1000) {
-        dir->update(-1, 0); // left
-    }
-    else if (a1 > 1000) {
-        dir->update(0, 1); // down
-    }
-    else if (a1 < 15) {
-        dir->update(0, -1); // up
-    }
-}
 
 int main() {
     Snake* ptrSnake = new Snake(new Block(5, 5, 1, 0));
@@ -119,8 +71,7 @@ int main() {
             DidMove = 1;
         }
 
-        if (DidMove == 0)
-            ptrSnake->Move();
+        ptrSnake->Move();
 
         if (ptrSnake->head->pos->x == ptrPoint->pos->x && ptrSnake->head->pos->y == ptrPoint->pos->y) {
             ptrSnake->Add();
@@ -156,3 +107,59 @@ int main() {
 }
 
 
+bool IsSnakePos(int x, int y, Snake* ptrSnake) {
+    Vector* arr;
+    for (unsigned char i = 0; i < ptrSnake->Lenght(); i++)
+    {
+        arr = ptrSnake->Index(i);
+        if (arr->x == x && arr->y == y) { return true; }
+    }
+    return false;
+}
+
+void DrawScreen(Snake* snake, Point* point) {
+    system("CLS");
+    string str = "||||||||||||||||||||||||||||||||||||||||||\n";
+    for (unsigned char i = 0; i < 20; i++)
+    {
+        str += ("|");
+        for (unsigned char j = 0; j < 40; j++)
+        {
+            if (IsSnakePos(j, i, snake)) {
+                str += ("#");
+            }
+            else if (point->pos->x == j && point->pos->y == i) {
+                str += ("+");
+            }
+            else
+                str += (" ");
+        }
+        str += ("|");
+        str += ("\n");
+    }
+    str += ("||||||||||||||||||||||||||||||||||||||||||");
+    cout << str;
+}
+
+void direction(int a0, int a1, Vector*& dir) {
+    if (a0 < 15) {
+        dir->update(1, 0); // right
+    }
+    else if (a0 > 1000) {
+        dir->update(-1, 0); // left
+    }
+    else if (a1 > 1000) {
+        dir->update(0, 1); // down
+    }
+    else if (a1 < 15) {
+        dir->update(0, -1); // up
+    }
+}
+
+Vector* AStarXDAlg(Snake* snake, Point* point) {
+    Vector* list = new Vector[3];
+    
+
+
+    delete[] list;
+}
