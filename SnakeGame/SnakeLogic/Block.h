@@ -25,7 +25,7 @@ public:
     void updateDir(int x, int y);
 
     void print();
-
+    void updateDir(Vector pos);
     ~Block();
 
     void Add();

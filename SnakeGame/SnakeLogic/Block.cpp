@@ -48,6 +48,11 @@ void Block::updateDir(int x, int y) {
     dir->y = y;
 }
 
+void Block::updateDir(Vector pos) {
+    dir->x = pos.x;
+    dir->y = pos.y;
+}
+
 void Block::print() {
     std::cout << "Pozycja: " << pos->x << ", " << pos->y << std::endl;
     std::cout << "Kierunek: " << dir->x << ", " << dir->y << std::endl;

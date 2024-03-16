@@ -15,6 +15,11 @@ void Vector::update(int xd, int yd) {
     y = yd;
 }
 
+void Vector::update(Vector vector) {
+    x = vector.x;
+    y = vector.y;
+}
+
 enum Vector::Direction {
     left = 1,
     up = 2,
