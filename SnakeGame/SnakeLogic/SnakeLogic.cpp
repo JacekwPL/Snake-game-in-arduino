@@ -9,9 +9,12 @@
 using namespace std;
 
 #define SNAKE_LENGTH 8
-#define TIME_DELAY 300 //ms
-#define YMAX 20;
-#define XMAX 40;
+#define POW2(x) ((x)*(x))
+#define TIME_DELAY 300 //ms 
+#define min4(a, b, c, d) (min(min(a, b), min(c, d)))
+
+const int YMAX = 20;
+const int XMAX = 40;
 
 #ifdef _WIN32
 #include <windows.h>
@@ -33,20 +36,21 @@ void sleep(unsigned milliseconds)
 bool IsSnakePos(int x, int y, Snake* ptrSnake);
 void DrawScreen(Snake* snake, Point point);
 void direction(int a0, int a1, Vector*& dir);
-void AStarXDAlg(Snake*& snake, Point point);
+void AStarXDAlg(Snake*& snake, Point &point);
 
-const Vector RIGHT = Vector(1, 0);
-const Vector LEFT = Vector(-1, 0);
-const Vector DOWN = Vector(0, 1);
-const Vector UP = Vector(0, -1);
+const Vector VRIGHT = Vector(1, 0);
+const Vector VLEFT = Vector(-1, 0);
+const Vector VDOWN = Vector(0, 1);
+const Vector VUP = Vector(0, -1);
 
 int main() {
+
     Snake* ptrSnake = new Snake(new Block(5, 5, 1, 0));
     ptrSnake->Add(SNAKE_LENGTH);
 
     srand((unsigned) time(NULL));
 
-    Point point = Point(rand() % 40, rand() % 20);
+    Point point = Point(rand() % XMAX, rand() % YMAX);
 
     while (1) {
         if (GetKeyState('W') & 0x8000)
@@ -75,11 +79,11 @@ int main() {
 
         if (ptrSnake->head->pos->x == point.pos->x && ptrSnake->head->pos->y == point.pos->y) {
             ptrSnake->Add();
-            int x = rand() % 40;
-            int y = rand() % 20;
+            int x = rand() % XMAX;
+            int y = rand() % YMAX;
             while (IsSnakePos(x, y, ptrSnake)) {
-                x = rand() % 40;
-                y = rand() % 20;
+                x = rand() % XMAX;
+                y = rand() % YMAX;
             }
             point.UpdatePos(x, y);
         }
@@ -89,7 +93,7 @@ int main() {
             goto GameEnd;
         }
 
-        if (ptrSnake->head->pos->x > 40 or ptrSnake->head->pos->x < 0 or ptrSnake->head->pos->y > 20 or ptrSnake->head->pos->y < 0) {
+        if (ptrSnake->head->pos->x > XMAX or ptrSnake->head->pos->x < 0 or ptrSnake->head->pos->y > YMAX or ptrSnake->head->pos->y < 0) {
             goto GameEnd;
             break;
         }
@@ -119,10 +123,10 @@ bool IsSnakePos(int x, int y, Snake* ptrSnake) {
 void DrawScreen(Snake* ptrSnake, Point point) {
     system("CLS");
     string str = "||||||||||||||||||||||||||||||||||||||||||\n";
-    for (unsigned char i = 0; i < 20; i++)
+    for (unsigned char i = 0; i < YMAX; i++)
     {
         str += ("|");
-        for (unsigned char j = 0; j < 40; j++)
+        for (unsigned char j = 0; j < XMAX; j++)
         {
             if (IsSnakePos(j, i, ptrSnake)) {
                 str += ("#");
@@ -142,46 +146,42 @@ void DrawScreen(Snake* ptrSnake, Point point) {
 
 void direction(int a0, int a1, Vector*& dir) {
     if (a0 < 15) {
-        dir->update(RIGHT); // right
+        dir->update(VRIGHT); // right
     }
     else if (a0 > 1000) {
-        dir->update(LEFT); // left
+        dir->update(VLEFT); // left
     }
     else if (a1 > 1000) {
-        dir->update(DOWN); // down
+        dir->update(VDOWN); // down
     }
     else if (a1 < 15) {
-        dir->update(UP); // up
+        dir->update(VUP); // up
     }
 }
 
-double CalculateDistance(Vector pos1, Point pos2) {
-    return sqrt(pow(pos1.x - pos2.pos->x, 2) + pow(pos1.y - pos2.pos->x, 2));
-}
-
-Vector PredictPos(Vector pos, Vector dir) {
-    return Vector(pos.x + dir.x, pos.y + dir.y);
-}
-
-void AStarXDAlg(Snake*& snake, Point point) {
-    Vector pos = Vector(snake->head->pos->x, snake->head->pos->y);
-    double left = CalculateDistance(PredictPos(pos, LEFT), point);
-    double down = CalculateDistance(PredictPos(pos, DOWN), point);
-    double right = CalculateDistance(PredictPos(pos, RIGHT), point);
-    double up = CalculateDistance(PredictPos(pos, UP), point);
+void AStarXDAlg(Snake*& snake, Point& point) {
+    Vector* SnakePos = new Vector(snake->head->pos->x, snake->head->pos->y);
+    Vector* PointPos = new Vector(point.pos->x, point.pos->y);
+    int up = POW2(SnakePos->x + VUP.x - PointPos->x) + POW2(SnakePos->y + VUP.y - PointPos->y);
+    int down = POW2(SnakePos->x + VDOWN.x - PointPos->x) + POW2(SnakePos->y + VDOWN.y - PointPos->y);
+    int left = POW2(SnakePos->x + VLEFT.x - PointPos->x) + POW2(SnakePos->y + VLEFT.y - PointPos->y);
+    int right = POW2(SnakePos->x + VRIGHT.x - PointPos->x) + POW2(SnakePos->y + VRIGHT.y - PointPos->y);
     
-    cout << left << down << right << up;
+    cout << left << " " << down << " " << right << " " << up;
 
-    if (min(min(left, down), min(right, up)) == left) {
-        snake->head->updateDir(LEFT);
+    if (min4(left, down, right, up) == left) {
+        snake->head->updateDir(VLEFT);
     }
-    if (min(min(left, down), min(right, up)) == down) {
-        snake->head->updateDir(DOWN);
+    else if (min4(left, down, right, up) == right) {
+        snake->head->updateDir(VRIGHT);
     }
-    if (min(min(left, down), min(right, up)) == right) {
-        snake->head->updateDir(RIGHT);
+    else if (min4(left, down, right, up) == up) {
+        snake->head->updateDir(VUP);
     }
-    if (min(min(left, down), min(right, up)) == up) {
-        snake->head->updateDir(UP);
+    else if (min4(left, down, right, up) == down) {
+        snake->head->updateDir(VDOWN);
     }
+
+    delete SnakePos;
+    delete PointPos;
 }

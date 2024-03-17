@@ -1,6 +1,7 @@
 ﻿  SnakeLogic.cpp
   Trwa generowanie kodu
-  Previous IPDB and IOBJ mismatch, fall back to full compilation.
-  All 124 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  110 of 121 functions (90.9%) were compiled, the rest were copied from previous compilation.
+    4 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
   Zakończono generowanie kodu
   SnakeLogic.vcxproj -> C:\Users\jacek\Desktop\programowanieW\Snake-game-in-arduino\SnakeGame\x64\Release\SnakeLogic.exe
