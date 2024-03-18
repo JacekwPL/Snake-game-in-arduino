@@ -1,20 +1,13 @@
 ﻿#include <iostream>
+#include <random>
 #include <string>
 #include "Snake.h"
 #include "Block.h"
 #include "Vector.h"
 #include "Point.h"
-#include <random>
 
-using namespace std;
-
-#define SNAKE_LENGTH 8
 #define POW2(x) ((x)*(x))
-#define TIME_DELAY 300 //ms 
 #define min4(a, b, c, d) (min(min(a, b), min(c, d)))
-
-const int YMAX = 20;
-const int XMAX = 40;
 
 #ifdef _WIN32
 #include <windows.h>
@@ -32,6 +25,10 @@ void sleep(unsigned milliseconds)
 }
 #endif
 
+const int TIME_DELAY = 300; //ms 
+const char SNAKE_LENGTH = 8;
+const char YMAX = 20;
+const char XMAX = 40;
 
 bool IsSnakePos(int x, int y, Snake* ptrSnake);
 void DrawScreen(Snake* snake, Point point);
@@ -122,7 +119,7 @@ bool IsSnakePos(int x, int y, Snake* ptrSnake) {
 
 void DrawScreen(Snake* ptrSnake, Point point) {
     system("CLS");
-    string str = "||||||||||||||||||||||||||||||||||||||||||\n";
+    std::string str = "||||||||||||||||||||||||||||||||||||||||||\n";
     for (unsigned char i = 0; i < YMAX; i++)
     {
         str += ("|");
@@ -141,7 +138,7 @@ void DrawScreen(Snake* ptrSnake, Point point) {
         str += ("\n");
     }
     str += ("||||||||||||||||||||||||||||||||||||||||||");
-    cout << str;
+    std::cout << str;
 }
 
 void direction(int a0, int a1, Vector*& dir) {
@@ -167,7 +164,7 @@ void AStarXDAlg(Snake*& snake, Point& point) {
     int left = POW2(SnakePos->x + VLEFT.x - PointPos->x) + POW2(SnakePos->y + VLEFT.y - PointPos->y);
     int right = POW2(SnakePos->x + VRIGHT.x - PointPos->x) + POW2(SnakePos->y + VRIGHT.y - PointPos->y);
     
-    cout << left << " " << down << " " << right << " " << up;
+    std::cout << left << " " << down << " " << right << " " << up;
 
     if (min4(left, down, right, up) == left) {
         snake->head->updateDir(VLEFT);
