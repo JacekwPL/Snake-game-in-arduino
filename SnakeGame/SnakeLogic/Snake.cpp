@@ -11,6 +11,9 @@ int Snake::Lenght() const {
 Snake::Snake(Block* newhead) {
     head = newhead;
     count += 1;
+    delete array;
+    array = new Block[count];
+    array[0] = *head;
 }
 
 void Snake::Move() {
@@ -56,6 +59,7 @@ void Snake::Add(int i) {
 
 Snake::~Snake() {
     delete head;
+    delete array;
 }
 
 bool Snake::ColisonCheck() {
@@ -69,4 +73,12 @@ bool Snake::ColisonCheck() {
         if (arr->x == x && arr->y == y) { return true; }
     }
     return false;
+}
+
+Block* const Snake::ReturnArray() const {
+    return array;
+}
+
+int const Snake::ArrayLenght() const {
+    return count;
 }

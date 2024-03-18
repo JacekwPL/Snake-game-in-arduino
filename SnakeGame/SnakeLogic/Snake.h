@@ -4,9 +4,15 @@
 
 class Snake {
     int count = 0;
+    Block* array = new Block[count];
 
 public:
     Block* head;
+
+    Block* const ReturnArray() const;
+
+    int const ArrayLenght() const;
+
     int Lenght() const ;
 
     Snake(Block* head);

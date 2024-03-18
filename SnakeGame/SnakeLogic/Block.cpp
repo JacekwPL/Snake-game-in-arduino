@@ -70,3 +70,4 @@ void Block::Add() {
     else
         _next = new Block(pos->x - dir->x, pos->y - dir->y, dir->x, dir->y);
 }
+
