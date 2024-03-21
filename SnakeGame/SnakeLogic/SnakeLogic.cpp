@@ -42,14 +42,16 @@ const Vector VUP = Vector(0, -1);
 
 int main() {
 
-    Block t1 = Block(5, 4);
-    Block t2 = Block(5, 4);
-    Block t3 = Block(3, 4);
+    auto t1 = Block(5, 4);
+    auto t2 = Block(5, 4);
+    auto t3 = Block(3, 4);
 
     std::cout << (t1 == t2) << std::endl;
     std::cout << (t1 == t3) << std::endl;
     std::cout << (t1 != t3) << std::endl;
     std::cout << "siema eniu";
+
+
     //Snake* ptrSnake = new Snake(new Block(5, 5, 1, 0));
     //ptrSnake->Add(SNAKE_LENGTH);
 

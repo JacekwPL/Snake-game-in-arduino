@@ -29,13 +29,12 @@ public:
     void updateDir(Vector pos);
     ~Block();
 
-    bool const operator==(Block other) const {
+    bool const operator==(Block& other) const {
         return this->pos->x == other.pos->x && this->pos->y == other.pos->y;
     }
 
-    bool const operator!=(Block other) const {
-        throw std::exception("not implemented yet");
-        return ((*this) == other);
+    bool const operator!=(Block& other) const {
+        return !((*this) == other);
     }
 
     void Add();

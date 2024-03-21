@@ -59,7 +59,7 @@ void Snake::Add(int i) {
 
 Snake::~Snake() {
     delete head;
-    delete array;
+    delete[] array;
 }
 
 bool Snake::ColisonCheck() {

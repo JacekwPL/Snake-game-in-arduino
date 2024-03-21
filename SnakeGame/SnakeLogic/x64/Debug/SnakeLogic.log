@@ -1,7 +1,2 @@
-﻿  Block.cpp
-  Point.cpp
-  Snake.cpp
-  SnakeLogic.cpp
-  Vector.cpp
-  Generowanie kodu...
+﻿  SnakeLogic.cpp
   SnakeLogic.vcxproj -> C:\Users\jacek\Desktop\programowanieW\Snake-game-in-arduino\SnakeGame\x64\Debug\SnakeLogic.exe
