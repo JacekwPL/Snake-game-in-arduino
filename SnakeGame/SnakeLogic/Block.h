@@ -1,6 +1,6 @@
 #pragma once
 #include "Vector.h"
-
+#include <iostream>
 
 class Block {
 private:
@@ -39,3 +39,5 @@ public:
 
     void Add();
 };
+
+std::ostream& operator<<(std::ostream& stream, Block& block);

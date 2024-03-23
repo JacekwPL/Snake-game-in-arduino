@@ -11,9 +11,6 @@ int Snake::Lenght() const {
 Snake::Snake(Block* newhead) {
     head = newhead;
     count += 1;
-    delete array;
-    array = new Block[count];
-    array[0] = *head;
 }
 
 void Snake::Move() {
@@ -40,9 +37,21 @@ Vector* Snake::Index(int i) {
     else
         throw std::exception("Blad w indeksie SNAKE");
 }
+
+Vector* Snake::retArray() {
+    Vector* array = new Vector[count];
+    for (int i = 0; i < count; i++)
+    {
+        array[i] = *Index(i);
+    }
+    return array;
+}
+
 void Snake::Add() {
     if (head) {
         head->Add();
+
+
     }
     else {
         std::cout << "WARNING, HEAD WASNT INITIALIZE" << std::endl;
@@ -59,7 +68,6 @@ void Snake::Add(int i) {
 
 Snake::~Snake() {
     delete head;
-    delete[] array;
 }
 
 bool Snake::ColisonCheck() {
@@ -73,10 +81,6 @@ bool Snake::ColisonCheck() {
         if (arr->x == x && arr->y == y) { return true; }
     }
     return false;
-}
-
-Block* const Snake::ReturnArray() const {
-    return array;
 }
 
 int const Snake::ArrayLenght() const {

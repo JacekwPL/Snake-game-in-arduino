@@ -71,3 +71,7 @@ void Block::Add() {
         _next = new Block(pos->x - dir->x, pos->y - dir->y, dir->x, dir->y);
 }
 
+std::ostream& operator<<(std::ostream& stream, Block& block) {
+    stream << block.pos->x << ", " << block.pos->y;
+    return stream;
+}

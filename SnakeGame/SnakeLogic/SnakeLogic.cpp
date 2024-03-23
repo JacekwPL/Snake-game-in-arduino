@@ -26,12 +26,12 @@ void sleep(unsigned milliseconds)
 #endif
 
 const int TIME_DELAY = 100; //ms 
-const char SNAKE_LENGTH = 8;
+const char SNAKE_LENGTH = 3;
 const char YMAX = 20;
 const char XMAX = 40;
 
-bool IsSnakePos(int x, int y, Snake* ptrSnake);
-void DrawScreen(Snake* snake, Point point);
+bool IsSnakePos(int x, int y, Snake*& ptrSnake);
+void DrawScreen(Snake*& snake, Point point);
 void direction(int a0, int a1, Vector*& dir);
 void AStarXDAlg(Snake*& snake, Point &point);
 
@@ -40,94 +40,87 @@ const Vector VLEFT = Vector(-1, 0);
 const Vector VDOWN = Vector(0, 1);
 const Vector VUP = Vector(0, -1);
 
+
 int main() {
 
-    auto t1 = Block(5, 4);
-    auto t2 = Block(5, 4);
-    auto t3 = Block(3, 4);
+    Snake* ptrSnake = new Snake(new Block(5, 5, 1, 0));
+    ptrSnake->Add(SNAKE_LENGTH);
 
-    std::cout << (t1 == t2) << std::endl;
-    std::cout << (t1 == t3) << std::endl;
-    std::cout << (t1 != t3) << std::endl;
-    std::cout << "siema eniu";
+    srand((unsigned) time(NULL));
 
+    Point point = Point(rand() % XMAX, rand() % YMAX);
 
-    //Snake* ptrSnake = new Snake(new Block(5, 5, 1, 0));
-    //ptrSnake->Add(SNAKE_LENGTH);
+    while (1) {
+        if (GetKeyState('W') & 0x8000)
+        {
+            direction(500, 0, ptrSnake->head->dir);
+        }
 
-    //srand((unsigned) time(NULL));
+        if (GetKeyState('A') & 0x8000)
+        {
+            direction(1023, 500, ptrSnake->head->dir);
+        }
+        
+        if (GetKeyState('S') & 0x8000)
+        {
+            direction(500, 1023, ptrSnake->head->dir);
+        }
+        
+        if (GetKeyState('D') & 0x8000)
+        {
+            direction(0, 500, ptrSnake->head->dir);
+        }
+        DrawScreen(ptrSnake, point);
 
-    //Point point = Point(rand() % XMAX, rand() % YMAX);
+        AStarXDAlg(ptrSnake, point);
 
-    //while (1) {
-    //    if (GetKeyState('W') & 0x8000)
-    //    {
-    //        direction(500, 0, ptrSnake->head->dir);
-    //    }
+        ptrSnake->Move();
 
-    //    if (GetKeyState('A') & 0x8000)
-    //    {
-    //        direction(1023, 500, ptrSnake->head->dir);
-    //    }
-    //    
-    //    if (GetKeyState('S') & 0x8000)
-    //    {
-    //        direction(500, 1023, ptrSnake->head->dir);
-    //    }
-    //    
-    //    if (GetKeyState('D') & 0x8000)
-    //    {
-    //        direction(0, 500, ptrSnake->head->dir);
-    //    }
+        if (ptrSnake->head->pos->x == point.pos->x && ptrSnake->head->pos->y == point.pos->y) {
+            ptrSnake->Add();
+            int x = rand() % XMAX;
+            int y = rand() % YMAX;
+            while (IsSnakePos(x, y, ptrSnake)) {
+                x = rand() % XMAX;
+                y = rand() % YMAX;
+            }
+            point.UpdatePos(x, y);
+        }
 
-    //    AStarXDAlg(ptrSnake, point);
+        
+        if (ptrSnake->ColisonCheck()) {
+            goto GameEnd;
+        }
 
-    //    ptrSnake->Move();
+        if (ptrSnake->head->pos->x > XMAX or ptrSnake->head->pos->x < 0 or ptrSnake->head->pos->y > YMAX or ptrSnake->head->pos->y < 0) {
+            goto GameEnd;
+            break;
+        }
+        
+        Sleep(TIME_DELAY);
+    }
 
-    //    if (ptrSnake->head->pos->x == point.pos->x && ptrSnake->head->pos->y == point.pos->y) {
-    //        ptrSnake->Add();
-    //        int x = rand() % XMAX;
-    //        int y = rand() % YMAX;
-    //        while (IsSnakePos(x, y, ptrSnake)) {
-    //            x = rand() % XMAX;
-    //            y = rand() % YMAX;
-    //        }
-    //        point.UpdatePos(x, y);
-    //    }
+    GameEnd:
+        std::cout << "\nGame over!\nPoints scored: " << ptrSnake->Lenght() - SNAKE_LENGTH - 1 << "\n";
 
-    //    
-    //    if (ptrSnake->ColisonCheck()) {
-    //        goto GameEnd;
-    //    }
-
-    //    if (ptrSnake->head->pos->x > XMAX or ptrSnake->head->pos->x < 0 or ptrSnake->head->pos->y > YMAX or ptrSnake->head->pos->y < 0) {
-    //        goto GameEnd;
-    //        break;
-    //    }
-    //    
-    //    DrawScreen(ptrSnake, point);
-    //    Sleep(TIME_DELAY);
-    //}
-
-    //GameEnd:
-    //    std::cout << "\nGame over!\nPoints scored: " << ptrSnake->Lenght() - SNAKE_LENGTH - 1 << "\n";
-
-    //delete ptrSnake;
+    delete ptrSnake;
     return 0;
 }
 
 
-bool IsSnakePos(int x, int y, Snake* ptrSnake) {
-    Vector* arr;
+bool IsSnakePos(int x, int y, Snake*& ptrSnake) {
+    Vector* arr = ptrSnake->retArray();
     for (unsigned char i = 0; i < ptrSnake->Lenght(); i++)
     {
-        arr = ptrSnake->Index(i);
-        if (arr->x == x && arr->y == y) { return true; }
+        if (arr[i].x == x && arr[i].y == y) {
+            return true; 
+        }
     }
+    delete[] arr;
     return false;
 }
 
-void DrawScreen(Snake* ptrSnake, Point point) {
+void DrawScreen(Snake*& ptrSnake, Point point) {
     system("CLS");
     std::string str = "||||||||||||||||||||||||||||||||||||||||||\n";
     for (unsigned char i = 0; i < YMAX; i++)
@@ -166,13 +159,22 @@ void direction(int a0, int a1, Vector*& dir) {
     }
 }
 
+
+int calcDist(Point& v1, int x, int y, Snake*& snake) {
+    if (!IsSnakePos(x, y, snake)) {
+        return POW2(v1.pos->x - x) + POW2(v1.pos->y - y);
+    }
+    return INT32_MAX;
+}
+
+
 void AStarXDAlg(Snake*& snake, Point& point) {
     Vector SnakePos = Vector(snake->head->pos->x, snake->head->pos->y);
-    Vector PointPos = Vector(point.pos->x, point.pos->y);
-    int up = POW2(SnakePos.x + VUP.x - PointPos.x) + POW2(SnakePos.y + VUP.y - PointPos.y);
-    int down = POW2(SnakePos.x + VDOWN.x - PointPos.x) + POW2(SnakePos.y + VDOWN.y - PointPos.y);
-    int left = POW2(SnakePos.x + VLEFT.x - PointPos.x) + POW2(SnakePos.y + VLEFT.y - PointPos.y);
-    int right = POW2(SnakePos.x + VRIGHT.x - PointPos.x) + POW2(SnakePos.y + VRIGHT.y - PointPos.y);
+
+    int up = calcDist(point, SnakePos.x + VUP.x, SnakePos.y + VUP.y, snake);
+    int down = calcDist(point, SnakePos.x + VDOWN.x, SnakePos.y + VDOWN.y, snake);
+    int left = calcDist(point, SnakePos.x + VLEFT.x, SnakePos.y + VLEFT.y, snake);
+    int right = calcDist(point, SnakePos.x + VRIGHT.x, SnakePos.y + VRIGHT.y, snake);
     
     std::cout << left << " " << down << " " << right << " " << up;
 
