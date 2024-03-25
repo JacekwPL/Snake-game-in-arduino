@@ -30,21 +30,27 @@ const char SNAKE_LENGTH = 3;
 const char YMAX = 20;
 const char XMAX = 40;
 
-bool IsSnakePos(int x, int y, Snake*& ptrSnake);
-void DrawScreen(Snake*& snake, Point point);
-void direction(int a0, int a1, Vector*& dir);
-void AStarXDAlg(Snake*& snake, Point &point);
-
 const Vector VRIGHT = Vector(1, 0);
 const Vector VLEFT = Vector(-1, 0);
 const Vector VDOWN = Vector(0, 1);
 const Vector VUP = Vector(0, -1);
 
+bool IsSnakePos(int x, int y, Snake*& ptrSnake);
+void DrawScreen(Snake*& snake, Point point);
+void direction(int a0, int a1, Vector*& dir);
+void AStarXDAlg(Snake*& snake, Point &point);
+
+Snake* ptrSnake = new Snake(new Block(5, 5, 1, 0));
+Vector vectorArray[(YMAX * XMAX)];
 
 int main() {
 
-    Snake* ptrSnake = new Snake(new Block(5, 5, 1, 0));
     ptrSnake->Add(SNAKE_LENGTH);
+    
+    for (char i = 0; i < ptrSnake->Lenght(); i++)
+    {
+        vectorArray[i] = *ptrSnake->Index(i);
+    }
 
     srand((unsigned) time(NULL));
 
@@ -78,6 +84,7 @@ int main() {
 
         if (ptrSnake->head->pos->x == point.pos->x && ptrSnake->head->pos->y == point.pos->y) {
             ptrSnake->Add();
+            vectorArray[ptrSnake->Lenght() - 1] = *ptrSnake->Index(ptrSnake->Lenght() - 1);
             int x = rand() % XMAX;
             int y = rand() % YMAX;
             while (IsSnakePos(x, y, ptrSnake)) {
@@ -109,14 +116,12 @@ int main() {
 
 
 bool IsSnakePos(int x, int y, Snake*& ptrSnake) {
-    Vector* arr = ptrSnake->retArray();
-    for (unsigned char i = 0; i < ptrSnake->Lenght(); i++)
+    for (int i = 0; i < ptrSnake->Lenght(); i++)
     {
-        if (arr[i].x == x && arr[i].y == y) {
+        if (vectorArray[i].x == x && vectorArray[i].y == y) {
             return true; 
         }
     }
-    delete[] arr;
     return false;
 }
 

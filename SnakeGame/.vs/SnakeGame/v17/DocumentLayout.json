@@ -29,7 +29,7 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 283,
+          "DockedWidth": 291,
           "SelectedChildIndex": 0,
           "Children": [
             {
@@ -40,7 +40,7 @@
               "RelativeDocumentMoniker": "SnakeLogic\\SnakeLogic.cpp",
               "ToolTip": "C:\\Users\\jacek\\Desktop\\programowanieW\\Snake-game-in-arduino\\SnakeGame\\SnakeLogic\\SnakeLogic.cpp",
               "RelativeToolTip": "SnakeLogic\\SnakeLogic.cpp",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAAB4AAAATAAAA",
+              "ViewState": "AQIAAEIAAAAAAAAAAAAlwFUAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-03-10T18:21:41.008Z",
               "IsPinned": true,
@@ -62,9 +62,22 @@
           ]
         },
         {
-          "DockedWidth": 169,
-          "SelectedChildIndex": 1,
+          "DockedWidth": 161,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Block.cpp",
+              "DocumentMoniker": "C:\\Users\\jacek\\Desktop\\programowanieW\\Snake-game-in-arduino\\SnakeGame\\SnakeLogic\\Block.cpp",
+              "RelativeDocumentMoniker": "SnakeLogic\\Block.cpp",
+              "ToolTip": "C:\\Users\\jacek\\Desktop\\programowanieW\\Snake-game-in-arduino\\SnakeGame\\SnakeLogic\\Block.cpp",
+              "RelativeToolTip": "SnakeLogic\\Block.cpp",
+              "ViewState": "AQIAADMAAAAAAAAAAAAAAEoAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-03-21T22:46:26.438Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 4,
@@ -76,19 +89,6 @@
               "ViewState": "AQIAABsAAAAAAAAAAAAAACoAAAA9AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-03-21T22:46:39.471Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Block.cpp",
-              "DocumentMoniker": "C:\\Users\\jacek\\Desktop\\programowanieW\\Snake-game-in-arduino\\SnakeGame\\SnakeLogic\\Block.cpp",
-              "RelativeDocumentMoniker": "SnakeLogic\\Block.cpp",
-              "ToolTip": "C:\\Users\\jacek\\Desktop\\programowanieW\\Snake-game-in-arduino\\SnakeGame\\SnakeLogic\\Block.cpp",
-              "RelativeToolTip": "SnakeLogic\\Block.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-03-21T22:46:26.438Z",
-              "EditorCaption": ""
             },
             {
               "$type": "Document",
