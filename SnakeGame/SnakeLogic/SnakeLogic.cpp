@@ -40,12 +40,16 @@ const Vector VLEFT = Vector(-1, 0);
 const Vector VDOWN = Vector(0, 1);
 const Vector VUP = Vector(0, -1);
 
+Vector* arr[XMAX * YMAX];
 
 int main() {
 
     Snake* ptrSnake = new Snake(new Block(5, 5, 1, 0));
     ptrSnake->Add(SNAKE_LENGTH);
-
+    for  (char i = 0; i < ptrSnake->Lenght(); i++)
+    {
+        arr[i] = ptrSnake->Index(i);
+    }
     srand((unsigned) time(NULL));
 
     Point point = Point(rand() % XMAX, rand() % YMAX);
@@ -78,6 +82,7 @@ int main() {
 
         if (ptrSnake->head->pos->x == point.pos->x && ptrSnake->head->pos->y == point.pos->y) {
             ptrSnake->Add();
+            arr[ptrSnake->Lenght() - 1] = ptrSnake->Index(ptrSnake->Lenght() - 1);
             int x = rand() % XMAX;
             int y = rand() % YMAX;
             while (IsSnakePos(x, y, ptrSnake)) {
@@ -109,14 +114,12 @@ int main() {
 
 
 bool IsSnakePos(int x, int y, Snake*& ptrSnake) {
-    Vector* arr = ptrSnake->retArray();
     for (unsigned char i = 0; i < ptrSnake->Lenght(); i++)
     {
-        if (arr[i].x == x && arr[i].y == y) {
+        if (arr[i]->x == x && arr[i]->y == y) {
             return true; 
         }
     }
-    delete[] arr;
     return false;
 }
 
@@ -175,8 +178,6 @@ void AStarXDAlg(Snake*& snake, Point& point) {
     int down = calcDist(point, SnakePos.x + VDOWN.x, SnakePos.y + VDOWN.y, snake);
     int left = calcDist(point, SnakePos.x + VLEFT.x, SnakePos.y + VLEFT.y, snake);
     int right = calcDist(point, SnakePos.x + VRIGHT.x, SnakePos.y + VRIGHT.y, snake);
-    
-    std::cout << left << " " << down << " " << right << " " << up;
 
     if (min4(left, down, right, up) == left) {
         snake->head->updateDir(VLEFT);
