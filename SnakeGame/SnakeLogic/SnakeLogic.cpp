@@ -25,15 +25,18 @@ void sleep(unsigned milliseconds)
 }
 #endif
 
-const int TIME_DELAY = 100; //ms 
+const int TIME_DELAY_RUN = 200;
+const int TIME_DELAY_AUTO = 25;
 const char SNAKE_LENGTH = 3;
-const char YMAX = 20;
-const char XMAX = 40;
+extern const char YMAX = 20;
+extern const char XMAX = 40;
 
 bool IsSnakePos(int x, int y, Snake*& ptrSnake);
 void DrawScreen(Snake*& snake, Point point);
 void direction(int a0, int a1, Vector*& dir);
 void AStarXDAlg(Snake*& snake, Point &point);
+void AStarAlg(Snake*& snake, Point& point);
+std::string operator*(const std::string& str, int times);
 
 const Vector VRIGHT = Vector(1, 0);
 const Vector VLEFT = Vector(-1, 0);
@@ -41,6 +44,7 @@ const Vector VDOWN = Vector(0, 1);
 const Vector VUP = Vector(0, -1);
 
 Vector* arr[XMAX * YMAX];
+int TIME_DELAY = 25; //ms 
 
 int main() {
 
@@ -74,9 +78,15 @@ int main() {
         {
             direction(0, 500, ptrSnake->head->dir);
         }
+
+        if (GetKeyState('R') & 0x8000)
+        {
+            direction(0, 500, ptrSnake->head->dir);
+            AStarAlg(ptrSnake, point);
+            TIME_DELAY = TIME_DELAY_AUTO;
+        } else TIME_DELAY = TIME_DELAY_RUN;
         DrawScreen(ptrSnake, point);
 
-        AStarXDAlg(ptrSnake, point);
 
         ptrSnake->Move();
 
@@ -125,7 +135,7 @@ bool IsSnakePos(int x, int y, Snake*& ptrSnake) {
 
 void DrawScreen(Snake*& ptrSnake, Point point) {
     system("CLS");
-    std::string str = "||||||||||||||||||||||||||||||||||||||||||\n";
+    std::string str = std::string("|") * (XMAX + 2) + "\n";
     for (unsigned char i = 0; i < YMAX; i++)
     {
         str += ("|");
@@ -143,7 +153,7 @@ void DrawScreen(Snake*& ptrSnake, Point point) {
         str += ("|");
         str += ("\n");
     }
-    str += ("||||||||||||||||||||||||||||||||||||||||||");
+    str += std::string("|") * (XMAX + 2);
     std::cout << str;
 }
 
@@ -191,4 +201,13 @@ void AStarXDAlg(Snake*& snake, Point& point) {
     else if (min4(left, down, right, up) == down) {
         snake->head->updateDir(VDOWN);
     }
+}
+
+
+std::string operator*(const std::string& str, int times) {
+    std::string result;
+    for (int i = 0; i < times; ++i) {
+        result += str;
+    }
+    return result;
 }

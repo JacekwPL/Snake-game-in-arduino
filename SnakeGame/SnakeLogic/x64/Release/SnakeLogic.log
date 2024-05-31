@@ -1,7 +1,10 @@
-﻿  SnakeLogic.cpp
+﻿  AStarAlg.cpp
+  Block.cpp
+  Snake.cpp
+  SnakeLogic.cpp
   Trwa generowanie kodu
-  1 of 37 functions ( 2.7%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
+  542 of 546 functions (99.3%) were compiled, the rest were copied from previous compilation.
+    431 functions were new in current compilation
     1 functions had inline decision re-evaluated but remain unchanged
   Zakończono generowanie kodu
   SnakeLogic.vcxproj -> C:\Users\jacek\Desktop\programowanieW\Snake-game-in-arduino\SnakeGame\x64\Release\SnakeLogic.exe
